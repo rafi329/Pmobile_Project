@@ -24,6 +24,8 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".CartActivity" />
         <activity android:name=".CheckoutActivity" />
+        <activity android:name=".ReceiptActivity"/>
+        <activity android:name=".TransactionHistoryActivity"/>
     </application>
 
 </manifest>

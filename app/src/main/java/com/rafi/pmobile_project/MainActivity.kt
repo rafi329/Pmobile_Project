@@ -16,6 +16,7 @@ class MainActivity : AppCompatActivity() {
 
         val recyclerView = findViewById<RecyclerView>(R.id.rvProducts)
         val btnCart = findViewById<ImageView>(R.id.btnCart)
+        val btnReceipt = findViewById<ImageView>(R.id.btnReceiptList)
 
         val produkList = listOf(
             Product("Laptop Pro 15\"", "Laptop", 15999000, 15, R.drawable.laptop),
@@ -26,7 +27,6 @@ class MainActivity : AppCompatActivity() {
 
         recyclerView.layoutManager = GridLayoutManager(this, 2)
         recyclerView.adapter = ProductAdapter(produkList) { product ->
-            // Cek apakah produk sudah ada di keranjang
             val existingItem = CartActivity.cartItems.find { it.product.nama == product.nama }
 
             if (existingItem != null) {
@@ -38,18 +38,16 @@ class MainActivity : AppCompatActivity() {
                 ).show()
             } else {
                 CartActivity.cartItems.add(CartItem(product))
-                Toast.makeText(
-                    this,
-                    "${product.nama} ditambahkan ke keranjang",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(this, "${product.nama} ditambahkan ke keranjang", Toast.LENGTH_SHORT).show()
             }
         }
 
-        // Cart button
         btnCart.setOnClickListener {
-            val intent = Intent(this, CartActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, CartActivity::class.java))
+        }
+
+        btnReceipt.setOnClickListener {
+            startActivity(Intent(this, TransactionHistoryActivity::class.java))
         }
     }
 }

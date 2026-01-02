@@ -1,9 +1,8 @@
 package com.rafi.pmobile_project
 
-
-
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -27,26 +26,21 @@ class CartActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cart)
 
-        // Inisialisasi views
         val btnBack: ImageView = findViewById(R.id.btnBack)
         tvTotalPrice = findViewById(R.id.tvTotalPrice)
         tvEmptyCart = findViewById(R.id.tvEmptyCart)
         val btnCheckout: Button = findViewById(R.id.btnCheckout)
         recyclerView = findViewById(R.id.rvCartItems)
 
-        // Setup RecyclerView
-        cartAdapter = CartAdapter(cartItems) { updatedItems ->
+        cartAdapter = CartAdapter(cartItems) {
             updateTotalPrice()
         }
+
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = cartAdapter
 
-        // Back button
-        btnBack.setOnClickListener {
-            finish()
-        }
+        btnBack.setOnClickListener { finish() }
 
-        // Checkout button
         btnCheckout.setOnClickListener {
             if (cartItems.isEmpty()) {
                 Toast.makeText(this, "Keranjang kosong!", Toast.LENGTH_SHORT).show()
@@ -55,8 +49,7 @@ class CartActivity : AppCompatActivity() {
                 if (selectedItems.isEmpty()) {
                     Toast.makeText(this, "Pilih minimal 1 item!", Toast.LENGTH_SHORT).show()
                 } else {
-                    val intent = Intent(this, CheckoutActivity::class.java)
-                    startActivity(intent)
+                    startActivity(Intent(this, CheckoutActivity::class.java))
                 }
             }
         }
@@ -66,19 +59,18 @@ class CartActivity : AppCompatActivity() {
 
     private fun updateUI() {
         if (cartItems.isEmpty()) {
-            tvEmptyCart.visibility = TextView.VISIBLE
-            recyclerView.visibility = RecyclerView.GONE
+            tvEmptyCart.visibility = View.VISIBLE
+            recyclerView.visibility = View.GONE
+            tvTotalPrice.text = "Total: Rp 0"
         } else {
-            tvEmptyCart.visibility = TextView.GONE
-            recyclerView.visibility = RecyclerView.VISIBLE
+            tvEmptyCart.visibility = View.GONE
+            recyclerView.visibility = View.VISIBLE
             updateTotalPrice()
         }
     }
 
     private fun updateTotalPrice() {
-        val total = cartItems
-            .filter { it.isSelected }
-            .sumOf { it.totalPrice }
+        val total = cartItems.filter { it.isSelected }.sumOf { it.totalPrice }
         tvTotalPrice.text = "Total: Rp ${total.formatToRupiah()}"
     }
 
@@ -88,7 +80,6 @@ class CartActivity : AppCompatActivity() {
         updateUI()
     }
 
-    fun Int.formatToRupiah(): String {
-        return String.format("%,d", this).replace(',', '.')
-    }
+    fun Int.formatToRupiah(): String =
+        String.format("%,d", this).replace(',', '.')
 }

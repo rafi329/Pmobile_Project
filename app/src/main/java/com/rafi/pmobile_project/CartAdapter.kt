@@ -3,16 +3,15 @@ package com.rafi.pmobile_project
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.CheckBox
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import kotlin.compareTo
-import kotlin.dec
-import kotlin.inc
-import kotlin.toString
 
 class CartAdapter(
     private val cartItems: MutableList<CartItem>,
-    private val onCartUpdated: (MutableList<CartItem>) -> Unit
+    private val onCartUpdated: () -> Unit
 ) : RecyclerView.Adapter<CartAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -27,15 +26,17 @@ class CartAdapter(
         val txtTotal: TextView = view.findViewById(R.id.txtTotal)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_cart, parent, false)
-        return ViewHolder(view)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
+        ViewHolder(
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_cart, parent, false)
+        )
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val cartItem = cartItems[position]
         val product = cartItem.product
+
+        holder.checkBox.setOnCheckedChangeListener(null)
 
         holder.imgProduct.setImageResource(product.gambar)
         holder.txtName.text = product.nama
@@ -44,42 +45,34 @@ class CartAdapter(
         holder.txtTotal.text = "Rp ${cartItem.totalPrice.formatToRupiah()}"
         holder.checkBox.isChecked = cartItem.isSelected
 
-        // CheckBox listener
         holder.checkBox.setOnCheckedChangeListener { _, isChecked ->
             cartItem.isSelected = isChecked
-            onCartUpdated(cartItems)
+            onCartUpdated()
         }
 
-        // Plus button
         holder.btnPlus.setOnClickListener {
             cartItem.quantity++
-            holder.txtQuantity.text = cartItem.quantity.toString()
-            holder.txtTotal.text = "Rp ${cartItem.totalPrice.formatToRupiah()}"
-            onCartUpdated(cartItems)
+            notifyItemChanged(position)
+            onCartUpdated()
         }
 
-        // Minus button
         holder.btnMinus.setOnClickListener {
             if (cartItem.quantity > 1) {
                 cartItem.quantity--
-                holder.txtQuantity.text = cartItem.quantity.toString()
-                holder.txtTotal.text = "Rp ${cartItem.totalPrice.formatToRupiah()}"
-                onCartUpdated(cartItems)
+                notifyItemChanged(position)
+                onCartUpdated()
             }
         }
 
-        // Delete button
         holder.btnDelete.setOnClickListener {
             cartItems.removeAt(position)
             notifyItemRemoved(position)
-            notifyItemRangeChanged(position, cartItems.size)
-            onCartUpdated(cartItems)
+            onCartUpdated()
         }
     }
 
     override fun getItemCount() = cartItems.size
 
-    private fun Int.formatToRupiah(): String {
-        return String.format("%,d", this).replace(',', '.')
-    }
+    private fun Int.formatToRupiah(): String =
+        String.format("%,d", this).replace(',', '.')
 }

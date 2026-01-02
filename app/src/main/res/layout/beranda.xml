@@ -30,6 +30,14 @@
             android:layout_height="wrap_content"/>
 
         <ImageView
+            android:id="@+id/btnReceiptList"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="12dp"
+            android:src="@drawable/ic_list"/>
+
+
+        <ImageView
             android:id="@+id/btnCart"
             android:layout_width="24dp"
             android:layout_height="24dp"
