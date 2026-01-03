@@ -7,10 +7,15 @@ import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 
 class ProductAdapter(
-    private val list: List<Product>,
+    private val list: MutableList<Product>,
     private val onAddClick: (Product) -> Unit
 ) : RecyclerView.Adapter<ProductAdapter.ViewHolder>() {
 
+    fun updateData(newList: List<Product>) {
+        list.clear()
+        list.addAll(newList)
+        notifyDataSetChanged()
+    }
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val img: ImageView = view.findViewById(R.id.imgProduct)
         val nama: TextView = view.findViewById(R.id.txtNama)
