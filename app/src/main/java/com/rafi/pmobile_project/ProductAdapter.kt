@@ -46,8 +46,6 @@ class ProductAdapter(
     }
 
     override fun getItemCount() = list.size
-
-    // Extension function yang BENAR
     private fun Int.formatToRupiah(): String {
         return String.format("%,d", this).replace(',', '.')
     }

@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         val btnReceipt = findViewById<ImageView>(R.id.btnReceiptList)
         val editSearch = findViewById<EditText>(R.id.editSearch)
 
-        // DATA PRODUK ASLI
+        // DATA PRODUK
         val allProducts = listOf(
             Product("Laptop Pro 15\"", "Laptop", 15999000, 15, R.drawable.laptop),
             Product("Wireless Headphone", "Audio", 2499000, 30, R.drawable.wireless_headphone),
@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
             Product("Kamera Pro", "Kamera", 12499000, 10, R.drawable.kamera_pro)
         )
 
-        // DATA YANG DITAMPILKAN (UNTUK FILTER)
+        // DATA YANG DITAMPILKAN SAAT SEARCING
         val filteredProducts = allProducts.toMutableList()
 
         val adapter = ProductAdapter(filteredProducts) { product ->
@@ -57,9 +57,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = GridLayoutManager(this, 2)
         recyclerView.adapter = adapter
 
-        // =========================
-        // 🔍 FUNGSI SEARCH PRODUK
-        // =========================
+        //FUNGSI SEARCH PRODUK
         editSearch.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {}
 
@@ -89,7 +87,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        // NAVIGASI
+
         btnCart.setOnClickListener {
             startActivity(Intent(this, CartActivity::class.java))
         }
