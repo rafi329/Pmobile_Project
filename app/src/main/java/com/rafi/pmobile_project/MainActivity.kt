@@ -20,9 +20,10 @@ class MainActivity : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.rvProducts)
         val btnCart = findViewById<ImageView>(R.id.btnCart)
         val btnReceipt = findViewById<ImageView>(R.id.btnReceiptList)
+        val btnProfile = findViewById<ImageView>(R.id.btnProfile)
         val editSearch = findViewById<EditText>(R.id.editSearch)
 
-        // DATA PRODUK
+        // ================= DATA PRODUK =================
         val allProducts = listOf(
             Product("Laptop Pro 15\"", "Laptop", 15999000, 15, R.drawable.laptop),
             Product("Wireless Headphone", "Audio", 2499000, 30, R.drawable.wireless_headphone),
@@ -30,10 +31,7 @@ class MainActivity : AppCompatActivity() {
             Product("Kamera Pro", "Kamera", 12499000, 10, R.drawable.kamera_pro)
         )
 
-        // DATA YANG DITAMPILKAN SAAT SEARCING
-        val filteredProducts = allProducts.toMutableList()
-
-        val adapter = ProductAdapter(filteredProducts) { product ->
+        val adapter = ProductAdapter(allProducts.toMutableList()) { product ->
             val existingItem =
                 CartActivity.cartItems.find { it.product.nama == product.nama }
 
@@ -57,43 +55,40 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = GridLayoutManager(this, 2)
         recyclerView.adapter = adapter
 
-        //FUNGSI SEARCH PRODUK
+        // ================= SEARCH =================
         editSearch.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {}
 
             override fun beforeTextChanged(
-                s: CharSequence?,
-                start: Int,
-                count: Int,
-                after: Int
+                s: CharSequence?, start: Int, count: Int, after: Int
             ) {}
 
             override fun onTextChanged(
-                s: CharSequence?,
-                start: Int,
-                before: Int,
-                count: Int
+                s: CharSequence?, start: Int, before: Int, count: Int
             ) {
                 val keyword = s.toString().lowercase()
-
                 if (keyword.isEmpty()) {
                     adapter.updateData(allProducts)
                 } else {
-                    val hasilFilter = allProducts.filter {
+                    val filtered = allProducts.filter {
                         it.nama.lowercase().contains(keyword)
                     }
-                    adapter.updateData(hasilFilter)
+                    adapter.updateData(filtered)
                 }
             }
         })
 
-
+        // ================= NAVIGASI =================
         btnCart.setOnClickListener {
             startActivity(Intent(this, CartActivity::class.java))
         }
 
         btnReceipt.setOnClickListener {
             startActivity(Intent(this, TransactionHistoryActivity::class.java))
+        }
+
+        btnProfile.setOnClickListener {
+            startActivity(Intent(this, ProfileActivity::class.java))
         }
     }
 }
