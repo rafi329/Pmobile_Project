@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"/>
 
             <EditText
-                android:id="@+id/etRegEmail"
+                android:id="@+id/etEmail"
                 android:hint="nama@example.com"
                 android:inputType="textEmailAddress"
                 android:background="@drawable/bg_input"
@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"/>
 
             <EditText
-                android:id="@+id/etRegPassword"
+                android:id="@+id/etPassword"
                 android:hint="********"
                 android:inputType="textPassword"
                 android:background="@drawable/bg_input"

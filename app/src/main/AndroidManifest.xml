@@ -26,6 +26,10 @@
         <activity android:name=".CheckoutActivity" />
         <activity android:name=".ReceiptActivity"/>
         <activity android:name=".TransactionHistoryActivity"/>
+
+        <!-- TAMBAHKAN INI -->
+        <activity android:name=".ProfileActivity" android:exported="false" />
+
     </application>
 
 </manifest>

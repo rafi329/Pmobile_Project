@@ -11,25 +11,19 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        val etEmail = findViewById<EditText>(R.id.etRegEmail)
-        val etPassword = findViewById<EditText>(R.id.etRegPassword)
+        val db = DatabaseHelper(this)
+
+        val email = findViewById<EditText>(R.id.etEmail)
+        val password = findViewById<EditText>(R.id.etPassword)
         val btnLogin = findViewById<Button>(R.id.btnLogin)
         val tvRegister = findViewById<TextView>(R.id.tvRegister)
 
-        val pref = getSharedPreferences("USER_PREF", MODE_PRIVATE)
-
         btnLogin.setOnClickListener {
-            val email = etEmail.text.toString()
-            val password = etPassword.text.toString()
-
-            val savedEmail = pref.getString("EMAIL", null)
-            val savedPassword = pref.getString("PASSWORD", null)
-
-            if (email == savedEmail && password == savedPassword) {
+            if (db.loginUser(email.text.toString(), password.text.toString())) {
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
             } else {
-                Toast.makeText(this, "Email atau Password salah", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Login gagal", Toast.LENGTH_SHORT).show()
             }
         }
 
