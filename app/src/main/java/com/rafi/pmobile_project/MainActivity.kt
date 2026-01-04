@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.rvProducts)
         val btnCart = findViewById<ImageView>(R.id.btnCart)
         val btnReceipt = findViewById<ImageView>(R.id.btnReceiptList)
+        val btnProfile = findViewById<ImageView>(R.id.btnProfile)
 
         val produkList = listOf(
             Product("Laptop Pro 15\"", "Laptop", 15999000, 15, R.drawable.laptop),
@@ -48,6 +49,10 @@ class MainActivity : AppCompatActivity() {
 
         btnReceipt.setOnClickListener {
             startActivity(Intent(this, TransactionHistoryActivity::class.java))
+        }
+
+        btnProfile.setOnClickListener {
+            startActivity(Intent(this, ProfileActivity::class.java))
         }
     }
 }
